@@ -1,0 +1,23 @@
+version: "3.5"
+
+services:
+  snippet07:
+    container_name: adilpy
+    build: cmd
+    ports:
+      - "4000:4000"
+    environment:
+      DD_DB_HOST: snippetboxdb
+    command: go run ./cmd/web
+    depends_on:
+      - snippetboxdb
+  snippetboxdb:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: snippetbox
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/init.sql
